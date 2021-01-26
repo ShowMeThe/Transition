@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet  android:duration="1200"  xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+	<changeImageTransform  android:interpolator="@android:interpolator/accelerate_decelerate"/>
+	<changeClipBounds  android:interpolator="@android:interpolator/accelerate_decelerate" />
+	<changeTransform  android:interpolator="@android:interpolator/linear"/>
+
+	<changeBounds
+		android:interpolator="@android:interpolator/accelerate_decelerate">
+	</changeBounds>
+
+	<transition class="com.show.element.transition.Recolor"/>
+	<transition class="com.show.element.transition.ReRadius"/>
+
+
+</transitionSet>
