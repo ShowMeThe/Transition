@@ -2,8 +2,10 @@ package com.show.example
 
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.drawable.RippleDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Pair
 import com.show.element.transition.callback.setExtraShareElementCallBack
 import com.show.example.databinding.ActivityMainBinding

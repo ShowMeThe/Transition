@@ -60,7 +60,18 @@ class ReRadius: Transition {
     private fun captureValues(transitionValues: TransitionValues) {
         if(transitionValues.view is CardView){
             transitionValues.values[radius] = (transitionValues.view as CardView).radius
+        }else if(transitionValues.view is MaterialButton){
+            transitionValues.values[radius] = (transitionValues.view as MaterialButton).cornerRadius
         }
+    }
+
+    private fun Any?.toFloat():Float?{
+        if(this is Int?){
+            return this?.toFloat()
+        }else if(this is Float?){
+            return this
+        }
+        return null
     }
 
     override fun createAnimator(
@@ -69,8 +80,8 @@ class ReRadius: Transition {
         endValues: TransitionValues
     ): Animator? {
 
-        val startRadius = startValues.values[radius] as Float?
-        val endRadius = endValues.values[radius] as Float?
+        val startRadius = startValues.values[radius].toFloat()
+        val endRadius = endValues.values[radius].toFloat()
 
 
 

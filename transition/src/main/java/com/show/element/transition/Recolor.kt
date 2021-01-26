@@ -2,7 +2,9 @@ package com.show.element.transition
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.transition.Transition
 import android.transition.TransitionValues
@@ -13,9 +15,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.animation.addListener
+import com.google.android.material.button.MaterialButton
 import com.show.element.AnimatorUtil
 import com.show.element.R
 import com.show.element.ShareElementInfo
+import java.lang.Exception
 
 
 class Recolor : Transition {
@@ -25,6 +30,7 @@ class Recolor : Transition {
 
     private val backgroundColor = "Recolor:backgroundColor"
     private val textColor = "Recolor:textColor"
+
 
     init {
         addTarget(View::class.java)
@@ -59,6 +65,7 @@ class Recolor : Transition {
     private fun captureInfoValues(info: ShareElementInfo, transitionValues: TransitionValues) {
         transitionValues.values[backgroundColor] = info.backgroundColor
         transitionValues.values[textColor] = info.textColor
+
     }
 
     private fun captureValues(transitionValues: TransitionValues) {
@@ -86,6 +93,8 @@ class Recolor : Transition {
         val startTextColor = startValues.values[textColor] as Int?
         val endTextColor = endValues.values[textColor] as Int?
 
+
+
         var animator1: Animator? = null
         if (startColor != null && endColor != null && startColor != endColor) {
             animator1 = ObjectAnimator.ofArgb(endValues.view, ColorProperty(), startColor, endColor)
@@ -98,6 +107,8 @@ class Recolor : Transition {
                 TextColorProperty(), startTextColor, endTextColor
             )
         }
+
+
         return AnimatorUtil.merge(animator1, animator2)
     }
 
@@ -118,6 +129,7 @@ class Recolor : Transition {
         }
 
     }
+
 
     private class ColorProperty(type: Class<Int>? = Int::class.java, name: String? = "background") :
         Property<View, Int>(type, name) {
