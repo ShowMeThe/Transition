@@ -10,12 +10,14 @@
 
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn"
         android:textSize="22dp"
         android:text="111"
         android:gravity="center"
+        app:backgroundTint="@color/purple_200"
         app:cornerRadius="25dp"
+        app:cardCornerRadius="25dp"
         android:transitionName="button"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"

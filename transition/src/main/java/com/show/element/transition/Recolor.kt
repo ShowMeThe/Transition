@@ -2,13 +2,14 @@ package com.show.element.transition
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.transition.Transition
 import android.transition.TransitionValues
 import android.util.AttributeSet
+import android.util.Log
 import android.util.Property
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,6 @@ import com.google.android.material.button.MaterialButton
 import com.show.element.AnimatorUtil
 import com.show.element.R
 import com.show.element.ShareElementInfo
-import java.lang.Exception
 
 
 class Recolor : Transition {
@@ -30,16 +30,14 @@ class Recolor : Transition {
 
     private val backgroundColor = "Recolor:backgroundColor"
     private val textColor = "Recolor:textColor"
-
+    private val backgroundColorStateList = "Recolor:backgroundColorStateList"
 
     init {
         addTarget(View::class.java)
-        excludeTarget(CardView::class.java, true)
-        excludeTarget(Button::class.java, true)
     }
 
     override fun getTransitionProperties(): Array<String> {
-        return arrayOf(backgroundColor, textColor)
+        return arrayOf(backgroundColor, textColor, backgroundColorStateList)
     }
 
     override fun captureStartValues(transitionValues: TransitionValues) {
@@ -65,20 +63,22 @@ class Recolor : Transition {
     private fun captureInfoValues(info: ShareElementInfo, transitionValues: TransitionValues) {
         transitionValues.values[backgroundColor] = info.backgroundColor
         transitionValues.values[textColor] = info.textColor
+        transitionValues.values[backgroundColorStateList] = info.colorStateList
 
     }
 
     private fun captureValues(transitionValues: TransitionValues) {
-        if (transitionValues.view.background is ColorDrawable?) {
-            val drawable = transitionValues.view.background as ColorDrawable?
+        val view = transitionValues.view
+        if (view.background is ColorDrawable?) {
+            val drawable = view.background as ColorDrawable?
             if (drawable != null) {
                 transitionValues.values[backgroundColor] = drawable.color
             }
         }
-        if (transitionValues.view is TextView) {
-            transitionValues.values[textColor] =
-                (transitionValues.view as TextView).currentTextColor
+        if (view is TextView) {
+            transitionValues.values[textColor] = view.currentTextColor
         }
+        transitionValues.values[backgroundColorStateList] = view.backgroundTintList
     }
 
     override fun createAnimator(
@@ -93,6 +93,8 @@ class Recolor : Transition {
         val startTextColor = startValues.values[textColor] as Int?
         val endTextColor = endValues.values[textColor] as Int?
 
+        val startColorStateList = startValues.values[backgroundColorStateList] as ColorStateList?
+        val endColorStateList = endValues.values[backgroundColorStateList] as ColorStateList?
 
 
         var animator1: Animator? = null
@@ -109,8 +111,29 @@ class Recolor : Transition {
         }
 
 
-        return AnimatorUtil.merge(animator1, animator2)
+
+        var animator3: Animator? = null
+        if (startColorStateList != null && endColorStateList != null && startColorStateList != endColorStateList) {
+            animator3 = ObjectAnimator.ofArgb(
+                startColorStateList.defaultColor, endColorStateList.defaultColor
+            ).apply {
+                addUpdateListener {
+                    val color = it.animatedValue as Int
+                    endValues.view.backgroundTintList = ColorStateList.valueOf(color)
+                }
+                addListener(
+                    onEnd = {
+                        endValues.view.backgroundTintList = endColorStateList
+                    })
+            }
+        }
+
+        return AnimatorUtil.merge(animator1, animator2, animator3)
     }
+
+
+
+
 
     private class TextColorProperty(
         type: Class<Int>? = Int::class.java,
