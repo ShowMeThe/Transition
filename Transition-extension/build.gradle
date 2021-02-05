@@ -114,7 +114,7 @@ bintray {
     pkg {
         repo = 'Transition'
         name = 'Transition-extension'
-        version("1.0.0")
+        version("1.0.1")
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/ShowMeThe/Transition.git'
     }
@@ -129,7 +129,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.ShowMeThe'
                 artifactId = 'Transition-extension'
-                version = '1.0.0'
+                version = '1.0.1'
             }
         }
     }
