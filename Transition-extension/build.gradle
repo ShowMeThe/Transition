@@ -81,8 +81,8 @@ dokka {
     configuration {
         externalDocumentationLink {
             noAndroidSdkLink = true
-            url = new URL("file:D:/lib/AndroidKtx/package-list")
-            packageListUrl = new URL("file:D:/lib/AndroidKtx/package-list")
+            url = new URL("https://github.com/ShowMeThe/Transition/blob/master/package-list")
+            packageListUrl = new URL("https://github.com/ShowMeThe/Transition/blob/master/package-list")
         }
     }
 }
@@ -134,4 +134,5 @@ afterEvaluate {
         }
     }
 }
+apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.ShowMeThe'
