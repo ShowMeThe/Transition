@@ -40,7 +40,8 @@ class Recolor : Transition {
         return arrayOf(backgroundColor, textColor, backgroundColorStateList)
     }
 
-    override fun captureStartValues(transitionValues: TransitionValues) {
+    override fun captureStartValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         val view = transitionValues.view
         val info = view.getTag(R.id.tag_transition_extra_properties) as ShareElementInfo?
         if (info != null) {
@@ -50,7 +51,8 @@ class Recolor : Transition {
         }
     }
 
-    override fun captureEndValues(transitionValues: TransitionValues) {
+    override fun captureEndValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         val view = transitionValues.view
         val info = view.getTag(R.id.tag_transition_extra_properties) as ShareElementInfo?
         if (info != null) {
@@ -67,7 +69,8 @@ class Recolor : Transition {
 
     }
 
-    private fun captureValues(transitionValues: TransitionValues) {
+    private fun captureValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         val view = transitionValues.view
         if (view.background is ColorDrawable?) {
             val drawable = view.background as ColorDrawable?

@@ -33,7 +33,8 @@ class ReRadius: Transition {
         return arrayOf(radius)
     }
 
-    override fun captureStartValues(transitionValues: TransitionValues) {
+    override fun captureStartValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         val view = transitionValues.view
         val info = view.getTag(R.id.tag_transition_extra_properties) as ShareElementInfo?
         if (info != null) {
@@ -43,7 +44,8 @@ class ReRadius: Transition {
         }
     }
 
-    override fun captureEndValues(transitionValues: TransitionValues) {
+    override fun captureEndValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         val view = transitionValues.view
         val info = view.getTag(R.id.tag_transition_extra_properties) as ShareElementInfo?
         if (info != null) {
@@ -57,7 +59,8 @@ class ReRadius: Transition {
         transitionValues.values[radius] = info.cardRadius
     }
 
-    private fun captureValues(transitionValues: TransitionValues) {
+    private fun captureValues(transitionValues: TransitionValues?) {
+        if(transitionValues == null) return
         if(transitionValues.view is CardView){
             transitionValues.values[radius] = (transitionValues.view as CardView).radius
         }else if(transitionValues.view is MaterialButton){
